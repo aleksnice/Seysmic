@@ -1,0 +1,288 @@
+﻿<Window x:Class="PlanSeysmicSystem.MainWindow"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:m="clr-namespace:Wpf.Controls;assembly=Wpf.SplitButton"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        Title="Проектирование системы наблюдения" MinHeight="350" MinWidth="525" 
+        ResizeMode="CanResizeWithGrip" WindowState="Maximized" Background="#FF333333"
+        Icon="oil.ico">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="bvc"></BooleanToVisibilityConverter>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.ColumnSpan="2" >
+            <MenuItem Header="Файл">
+                <MenuItem Header="Новый проект" Name="menuItem_NewDataBase" Click="menuItem_NewDataBase_Click">
+                    <MenuItem.Icon>
+                        <Path Width="16" Height="16" Stretch="Fill" 
+                              Fill="{StaticResource FillPath}" 
+                              Data="{StaticResource new_windowStyle0}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Открыть проект" Name="menuItem_OpenData">
+                    <MenuItem.Icon>
+                        <Path Width="16" Height="16" Stretch="Fill" 
+                              Fill="{StaticResource FillPath}" 
+                              Data="{StaticResource book_openStyle0}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Сохранить проект">
+                    <MenuItem.Icon>
+                        <Path Width="16" Height="16" Stretch="Fill" 
+                              Fill="{StaticResource FillPath}" 
+                              Data="{StaticResource saveStyle0}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Сохранить как">
+                    <MenuItem.Icon>
+                        <Path Width="16" Height="16" Stretch="Fill" 
+                              Fill="{StaticResource FillPath}" 
+                              Data="{StaticResource lifesaverStyle0}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Печать">
+                    <MenuItem.Icon>
+                        <Path Width="16" Height="16" Stretch="Fill" 
+                              Fill="{StaticResource FillPath}" 
+                              Data="{StaticResource printerStyle0}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Выход">
+                    <MenuItem.Icon>
+                        <Path Width="16" Height="16" Stretch="Fill" 
+                              Fill="{StaticResource FillPath}" 
+                              Data="{StaticResource closeStyle0}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Схема">
+                <MenuItem Header="Пункты приема" Name="menuitem_pp">
+                    <MenuItem Header="Прокос/Ортогональная" Name="menuitem_regularStation" 
+                              Click="menuitem_regularStation_Click"/>
+                    <MenuItem Header="Нерегулярная схема">
+                        <MenuItem Header="Табличный ввод" Name="menuitem_unregularStation" Click="menuitem_unregularStation_Click"/>
+                        <MenuItem Header="Случайная" Name="menuitem_unregularStationMap" 
+                                  Click="menuitem_unregularStationMap_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="ЗигЗаг" Name="menuitem_ZagZagStations"
+                              Click="menuitem_ZagZagStations_Click"/>
+                    <MenuItem Header="Блочная" Name="menuitem_ButtonStations"
+                              Click="menuitem_ButtonStations_Click" Visibility="Collapsed"/>
+                    <MenuItem Header="Мегабин" Name="menuitem_MegaBinStations"
+                              Click="menuitem_MegaBinStations_Click"/>
+                </MenuItem>
+                <MenuItem Header="Пункты взрыва" Name="menuitem_pv">
+                    <MenuItem Header="Прокос/Ортогональная" Name="menuitem_regularSource" Click="menuitem_regularSource_Click"/>
+                    <MenuItem Header="Нерегулрная схема">
+                        <MenuItem Header="Табличный ввод" Name="menuitem_unregularSource" Click="menuitem_unregularSource_Click"/>
+                        <MenuItem Header="Настройка ручной отрисовки" Name="menuitem_unregularSourcenMap" 
+                                  Click="menuitem_unregularSourcenMap_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="ЗигЗаг" Name="menuitem_ZagZagSources"
+                              Click="menuitem_ZagZagSources_Click"/>
+                    <MenuItem Header="Мегабин" Name="menuitem_MegaBinSources"
+                              Click="menuitem_MegaBinSources_Click"/>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Таблица ПП" Name="menuitem_tablePP"
+                              Click="menuitem_tablePP_Click"/>
+                <MenuItem Header="Таблица ПВ" Name="menuitem_tablePV"
+                              Click="menuitem_tablePV_Click"/>
+                <Separator/>
+                <MenuItem Header="Настройка бина" Name="menuitem_settingsBin"
+                              Click="menuitem_settingsBin_Click"/>
+            </MenuItem>
+            <MenuItem Header="Отстрел"  Click="manu_btn_shooting_Click"/>
+            <MenuItem Header="Карта">
+                <MenuItem Header="Добавить карту" Name="menuItem_addMap" Click="addMap_Click"/>
+                <Separator/>
+                <MenuItem Header="Добавить объект" Name="menuItem_addObject" 
+                          Click="menuItem_addObject_Click"/>
+                <Separator/>
+                <MenuItem Header="Добавить текст"/>
+            </MenuItem>
+            <MenuItem Header="Запретные зоны">
+                <MenuItem Header="Задать запретную зону" Name="menuItem_DistrictZone"/>
+                <Separator/>
+                <MenuItem Header="Удалить запретные зоны"/>
+
+            </MenuItem>
+            <MenuItem Header="Проект" Name="menu_project" IsEnabled="False">
+                <MenuItem Header="Таблица средних точек"
+                          Name="menuItemTableMiddlePoint"
+                          Click="menuItemTableMiddlePoint_Click"/>
+                <MenuItem Header="Карта средних точек"
+                          Name="menuItemMapMiddlePoint"
+                          Click="menuItemMapMiddlePoint_Click"/>
+            </MenuItem>
+            <MenuItem Header="Карта кратностей"  Name="menu_map" IsEnabled="False">
+                <MenuItem Header="Открыть" Name="menuItemOpenMultiplicityMap"
+                          Click="menuItemOpenMultiplicityMap_Click"></MenuItem>
+                <MenuItem Header="Таблица данных"/>
+            </MenuItem>
+            <MenuItem Header="Справка">
+                <MenuItem Header="Вызов справки"/>
+                <MenuItem Header="О программе"/>
+            </MenuItem>
+        </Menu>
+        
+        <ToolBar  Height="44"  Grid.ColumnSpan="2" Grid.Row="1" Name="toolbar">
+            <Button ToolTip="Новый проект" Name="tb_btn_newScheme" Click="tb_btn_newScheme_Click">
+                <Path Width="18" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource pageStyle0}" />
+            </Button>
+            <Button ToolTip="Сохранить проект">
+                <Path Width="20" Height="20" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource saveStyle0}" />
+            </Button>
+            <Button ToolTip="Сохранить как изображение">
+                <Path Width="26" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource image_multipleStyle0}" />
+            </Button>
+            <Button ToolTip="Печать">
+                <Path Width="26" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource printerStyle0}" />
+            </Button>
+            <Separator/>
+            <Button ToolTip="Удалить схему ПП" IsEnabled="True" Name="btn_enablePP" Click="btn_enablePP_Click">
+                <Path Width="26" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource map_satelliteStyle0}" />
+            </Button>
+            <Button ToolTip="Удалить схему ПВ" IsEnabled="True">
+                <Path Width="26" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource tiles_nineStyle0}" />
+            </Button>
+            <Button ToolTip="Очистить" IsEnabled="True">
+                <Path Width="26" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource cleanStyle0}" />
+            </Button>
+            <Button ToolTip="Осуществить отстрел" IsEnabled="True" Name="manu_btn_shooting" Click="manu_btn_shooting_Click">
+                <Path Width="26" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource towerStyle0}" />
+            </Button>
+            <Separator/>
+            <TextBlock VerticalAlignment="Center" Foreground="#eee" Margin="4,0,10,0">Масштаб:</TextBlock>
+            <ComboBox SelectedIndex="0" MinWidth="85" Name="cmb_zoom" SelectionChanged="cmb_zoom_SelectionChanged" >
+                <ComboBoxItem>Отключить</ComboBoxItem>
+                <ComboBoxItem>Масштаб по Х</ComboBoxItem>
+                <ComboBoxItem>Масштаб по У</ComboBoxItem>
+                <ComboBoxItem>Масштаб по ХУ</ComboBoxItem>
+                <ComboBoxItem>Сбросить</ComboBoxItem>
+            </ComboBox>
+            <Separator/>
+            <Separator/>
+            <Button ToolTip="Вызов справки" IsEnabled="True" Name="btn_help" Click="btn_help_Click">
+                <Path Width="20" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource  questionStyle0}" />
+            </Button>
+        </ToolBar>
+
+        <lvc:CartesianChart Grid.Row="2" Grid.Column="1" LegendLocation="Left"
+                            Background="#FF191616"  VerticalContentAlignment="Top"
+                            Zoom="{Binding ZoomingMode, Mode=TwoWay}" Name="chartMap"
+                            Foreground="White" VisualElements="{Binding Visuals}"
+                            DataClick="chartMap_DataClick"
+                            MouseDown="chartMap_MouseDown"
+                            MouseMove="chartMap_MouseMove"   FontSize="16"
+                            DisableAnimations="True" AnimationsSpeed="0">
+
+            <lvc:CartesianChart.Series>
+                <lvc:ScatterSeries Title="Пункты взрыва:" Values="{Binding pointsValuesNull}" 
+                                   Fill="Transparent" Stroke="Transparent" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" FontSize="14" Foreground="White"
+                                   FontWeight="ExtraBold"/>
+                <lvc:ScatterSeries Title="Live" Values="{Binding pointsSourcesLive, Mode=TwoWay}" Name="sct_live"
+                                   PointGeometry="{x:Static lvc:DefaultGeometries.Square}"
+                                   Fill="Transparent" Stroke="White"
+                                   Visibility="{Binding SourcesSeriesVisibility, Converter={StaticResource bvc}}"/>
+                <lvc:ScatterSeries Title="Fired" Values="{Binding pointsSourcesFired}" Name="sct_fired"
+                                   PointGeometry="{x:Static lvc:DefaultGeometries.Square}"
+                                   Fill="Transparent" Stroke="Red" 
+                                    Visibility="{Binding SourcesSeriesVisibility, Converter={StaticResource bvc}}"/>
+                <lvc:ScatterSeries Title="Dead" Values="{Binding ValuesB}"
+                                   PointGeometry="{x:Static lvc:DefaultGeometries.Square}"
+                                   Fill="Transparent" Stroke="Blue"/>
+                <lvc:ScatterSeries Title="Highlighted" Values="{Binding ValuesB}"
+                                   PointGeometry="{x:Static lvc:DefaultGeometries.Square}"
+                                   Fill="Transparent" Stroke="LawnGreen"/>
+
+                <lvc:ScatterSeries Title="" Values="{Binding ValuesB}"
+                                   Fill="Transparent" Stroke="Transparent" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" FontSize="14"/>
+                <lvc:ScatterSeries Title="" Values="{Binding ValuesB}"
+                                   Fill="Transparent" Stroke="Transparent" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" FontSize="14"/>
+                <lvc:ScatterSeries Title="" Values="{Binding ValuesB}"
+                                   Fill="Transparent" Stroke="Transparent" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" FontSize="14"/>
+
+                <lvc:ScatterSeries Title="Пункты приема:" Values="{Binding ValuesB}"
+                                   Fill="Transparent" Stroke="Transparent" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" FontSize="14" Foreground="White"
+                                   FontWeight="ExtraBold"/>
+                <lvc:ScatterSeries Title="Live" Values="{Binding pointsStationsLive, Mode=TwoWay}"
+                                   PointGeometry="{x:Static lvc:DefaultGeometries.Triangle}"
+                                   StrokeThickness="2" Fill="Transparent" Stroke="White"/>
+                <lvc:ScatterSeries Title="Fired" Values="{Binding pointsStationFired}"
+                                   PointGeometry="{x:Static lvc:DefaultGeometries.Triangle}"
+                                   StrokeThickness="2" Fill="Transparent" Stroke="Red"/>
+                <lvc:ScatterSeries Title="Dead" Values="{Binding ValuesC}"
+                                   PointGeometry="{x:Static lvc:DefaultGeometries.Triangle}"
+                                   StrokeThickness="2" Fill="Transparent" Stroke="Blue"/>
+                <lvc:ScatterSeries Title="Highlighted" Values="{Binding ValuesC}"  FontSize="16"
+                                   PointGeometry="{x:Static lvc:DefaultGeometries.Triangle}"
+                                   StrokeThickness="2" Fill="Transparent" Stroke="LawnGreen"/>
+                <lvc:ScatterSeries Title="Средние точки" Values="{Binding middlePoints}"
+                                   PointGeometry="{x:Static lvc:DefaultGeometries.Circle}"
+                                   StrokeThickness="1" Stroke="Blue"  Fill="SkyBlue" FontSize="16"
+                                   MaxPointShapeDiameter="5" MinPointShapeDiameter="5" Visibility="Collapsed"/>
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Name="X" Separator="{x:Static lvc:DefaultAxes.CleanSeparator}" Foreground="White"/>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY >
+                <lvc:Axis Name="Y" Foreground="White" />
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+
+        <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+            BorderBrush="#FF1E6DE0" BorderThickness="1"  Grid.Row="3" Grid.ColumnSpan="2">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                    Orientation="Horizontal" Name="stack_settings" Visibility="Collapsed">
+
+                <CheckBox Content="Автоматическая настройка координат" Grid.Row="7"
+                      VerticalAlignment="Center" Name="chb_settingAuto"  Margin="5,2,5,2"
+                      HorizontalAlignment="Center"/>
+                <TextBlock Foreground="White" FontSize="14" Margin="5,2,5,2"
+                  VerticalAlignment="Center" Name="tblcok_infText" 
+                       HorizontalAlignment="Center"/>
+                <Button Content="ЗАКОНЧИТЬ" Width="100" Height="40" FontSize="14" Margin="5,2,5,2"
+                    Name='btn_finishAddPoints' Click="btn_finishAddPoints_Click"
+                    ToolTip="Закончить добавлять" HorizontalAlignment="Center"
+                    TextOptions.TextFormattingMode="Display">
+                    <Button.Background>
+                        <RadialGradientBrush GradientOrigin="0.5,0">
+                            <GradientStop Color="#FF0E2676" Offset="1"/>
+                            <GradientStop Color="#FE374EDA" Offset="0.082"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button Content="Отмена" Width="100" Height="40" FontSize="14" Margin="5,2,5,2"
+                     ToolTip="Отменить произведенные действия"
+                    TextOptions.TextFormattingMode="Display" HorizontalAlignment="Center"
+                    Name="btn_cancelAddPoints" Click="btn_cancelAddPoints_Click"/>
+                <TextBlock Foreground="White" FontSize="14" Margin="5,2,5,2" Width="150"
+                  VerticalAlignment="Center" Name="tblcok_positionMouse" 
+                       HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

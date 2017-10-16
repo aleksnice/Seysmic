@@ -1,0 +1,91 @@
+﻿<Window x:Class="PlanSeysmicSystem.MapSettingsForUnregSources"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlanSeysmicSystem" Icon="oil.ico"
+          mc:Ignorable="d" Background="#FF333333" ResizeMode="NoResize" ShowInTaskbar="False"
+        Title="Настройка сетки ПВ" Height="380" Width="200" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Foreground="White" FontSize="12" HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" Margin="5" TextWrapping="Wrap" TextAlignment="Center">
+            Задайте размеры сетки наблюдения ПВ</TextBlock>
+
+        <TextBlock Foreground="White" FontSize="12" HorizontalAlignment="Left" 
+                   Grid.Row="1" VerticalAlignment="Center" Margin="5">
+            Начальные координаты:</TextBlock>
+
+        <StackPanel Grid.Row="2" Margin="3" Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Foreground="White" FontSize="14" VerticalAlignment="Center" Text="X:"/>
+            <TextBox FontSize="14" VerticalAlignment="Center" Text='0' Margin="5,1,5,1" Width="75" Name="txt_StartPointX"/>
+            <TextBlock Foreground="White" FontSize="14" VerticalAlignment="Center" Text="Y:"/>
+            <TextBox FontSize="14" VerticalAlignment="Center" Text='0' Margin="5,1,5,1" Width="75" Name="txt_StartPointY"/>
+        </StackPanel>
+
+        <TextBlock Foreground="White" FontSize="12" HorizontalAlignment="Left" 
+                   Grid.Row="3" VerticalAlignment="Center" Margin="5">
+            Конечные координаты:</TextBlock>
+
+        <StackPanel Grid.Row="4" Margin="3" Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Foreground="White" FontSize="14" VerticalAlignment="Center" Text="X:"/>
+            <TextBox FontSize="14" VerticalAlignment="Center" Text='0' Margin="5,1,5,1" Width="75" Name="txt_FinishPointX"/>
+            <TextBlock Foreground="White" FontSize="14" VerticalAlignment="Center" Text="Y:"/>
+            <TextBox FontSize="14" VerticalAlignment="Center" Text='0' Margin="5,1,5,1" Width="75" Name="txt_FinishPointY"/>
+        </StackPanel>
+
+        <CheckBox Content="Задать мин число ПВ?" Grid.Row="5" VerticalAlignment="Center"
+                  Name="chb_minPV" Margin="3" Checked="chb_minPV_Checked"
+                  Unchecked="chb_minPV_Unchecked"/>
+
+        <StackPanel Grid.Row="6" Margin="3" Orientation="Horizontal"
+                    VerticalAlignment="Center" Name="stack_min" Visibility="Collapsed">
+            <TextBlock Foreground="White" FontSize="14" VerticalAlignment="Center" 
+                       Text="Мин число ПП:"/>
+            <TextBox FontSize="14" VerticalAlignment="Center" Text='0' Margin="5,1,5,1" 
+                     Width="82" Name="txt_MinCountPV"/>
+        </StackPanel>
+
+        <CheckBox Content="Задать макс число ПВ?" Grid.Row="7" VerticalAlignment="Center"
+                  Name="chb_maxPV" Margin="3" Checked="chb_minPV_Checked"
+                  Unchecked="chb_minPV_Unchecked"/>
+
+        <StackPanel Grid.Row="8" Margin="3" Orientation="Horizontal" VerticalAlignment="Center"
+                   Name="stack_max" Visibility="Collapsed">
+            <TextBlock Foreground="White" FontSize="14" VerticalAlignment="Center" 
+                       Text="Макс число ПВ:"/>
+            <TextBox FontSize="14" VerticalAlignment="Center" Text='0' Margin="5,1,5,1" 
+                     Width="82" Name="txt_MaxCountPV"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="9" Grid.Column="2" Orientation="Horizontal"  HorizontalAlignment="Center">
+            <Button Content="Отмена" Width="90"  Height="40" Margin="0,2,5,0"
+                    Name="btn_cancel" TextOptions.TextFormattingMode="Display"/>
+            <Button Content="Помощь" Width="90"  Height="40" Margin="0,2,5,2" Name="btn_help" 
+                    TextOptions.TextFormattingMode="Display"/>
+        </StackPanel>
+        <Button Content="Применить" Grid.Row="10"  Height="40" Margin="5,2,5,0" 
+                    Name="btn_ok"  TextOptions.TextFormattingMode="Display"
+                    Click="btn_ok_Click">
+            <Button.Background>
+                <RadialGradientBrush GradientOrigin="0.5,0">
+                    <GradientStop Color="#FF0E2676" Offset="1"/>
+                    <GradientStop Color="#FE374EDA" Offset="0.082"/>
+                </RadialGradientBrush>
+            </Button.Background>
+        </Button>
+    </Grid>
+</Window>

@@ -1,0 +1,93 @@
+﻿<Window x:Class="PlanSeysmicSystem.TablePointsSource"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:PlanSeysmicSystem"
+        mc:Ignorable="d" Name="win" 
+        xmlns:m="clr-namespace:Wpf.Controls;assembly=Wpf.SplitButton"
+        MinHeight="750" MinWidth="750"
+        ResizeMode="CanResizeWithGrip" WindowState="Maximized" Background="#FF333333">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ToolBar  Height="44"  Grid.ColumnSpan="2" Grid.Row="0">
+            <Button ToolTip="Новая схема" Name="btn_newScheme" Click="btn_newScheme_Click">
+                <Path Width="18" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource pageStyle0}" />
+            </Button>
+            <Button ToolTip="Сохранить данные">
+                <Path Width="20" Height="20" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource saveStyle0}" />
+            </Button>
+            <Button ToolTip="Импорт" Name="btn_imp" Click="btn_imp_Click">
+                <Path Width="20" Height="20" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource debug_restartStyle0}" />
+            </Button>
+            <Button ToolTip="Сохранить как картинку">
+                <Path Width="26" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource folder_openStyle0}" />
+            </Button>
+            <Button ToolTip="Печать" Name="btn_print" Click="btn_print_Click">
+                <Path Width="26" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource printerStyle0}" />
+            </Button>
+            <Separator/>
+            <CheckBox FontWeight="Bold" Content="Ж" Name="chbBold" Margin="0,0,5,0"
+                      Checked="chbBold_Checked"
+                      Unchecked="chbBold_Unchecked"/>
+            <CheckBox FontStyle="Italic" Content="К" Name="chbItalic"
+                      Checked="chbItalic_Checked" Unchecked="chbItalic_Unchecked"/>
+            <Separator/>
+            <ComboBox Name="FontSizeComboBox" IsEditable="True" 
+            Width="60" SelectedIndex="1" 
+                      Foreground="White">
+                <ComboBox.ItemsSource>
+                    <x:Array Type="{x:Type System:Double}">
+                        <System:Double>12</System:Double>
+                        <System:Double>14</System:Double>
+                        <System:Double>16</System:Double>
+                        <System:Double>18</System:Double>
+                        <System:Double>20</System:Double>
+                        <System:Double>22</System:Double>
+                        <System:Double>24</System:Double>
+                        <System:Double>26</System:Double>
+                        <System:Double>28</System:Double>
+                    </x:Array>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+            <Separator/>
+            <TextBox Width="200" Margin="5,1,5,1" Name="txt_search"
+                     TextChanged="txt_search_TextChanged" 
+                     ></TextBox>
+            <Button ToolTip="Очистить поиск" Name="btn_clear" Click="btn_clear_Click">
+                <Path Width="22" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource stopStyle0}" />
+            </Button>
+            <Separator/>
+            <TextBlock VerticalAlignment="Center" Foreground="#eee" Margin="4,0,10,0">Поиск по:</TextBlock>
+            <RadioButton  Name="rbt1">Номеру линии</RadioButton>
+            <RadioButton IsChecked="True" Name="rbt2">Наименовании линии</RadioButton>
+            <RadioButton  Name="rbt3">Номера записи</RadioButton>
+            <RadioButton  Name="rbt4">Координате Х</RadioButton>
+            <RadioButton  Name="rbt5">Координате Y</RadioButton>
+            <Separator/>
+            <Button ToolTip="Вызов справки" IsEnabled="True" Name="btn_help">
+                <Path Width="20" Height="22" Stretch="Fill" Fill="{StaticResource FillPath}" Data="{StaticResource  questionStyle0}" />
+            </Button>
+        </ToolBar>
+
+        <DataGrid Grid.Row="1" x:Name="dgrPoints" ItemsSource="{Binding Sources}" VerticalAlignment="Top" AutoGenerateColumns="False" CanUserResizeColumns="True"
+                  FontSize="{Binding Text, ElementName=FontSizeComboBox}" CellEditEnding="dgrPoints_CellEditEnding">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Тип схемы" Binding="{Binding TypeScheme}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Номер линии" Binding="{Binding LineIndex}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Наименование линии" Binding="{Binding LineName}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Номер записи" Binding="{Binding RecordIndex}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Номер ПВ" Binding="{Binding RecordNumber}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Координата по X" Binding="{Binding PointX}" Width="0.5*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Координата по Y" Binding="{Binding PointY}" Width="0.5*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Координата по Z" Binding="{Binding PointZ}" Width="0.5*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+    </Grid>
+</Window>
